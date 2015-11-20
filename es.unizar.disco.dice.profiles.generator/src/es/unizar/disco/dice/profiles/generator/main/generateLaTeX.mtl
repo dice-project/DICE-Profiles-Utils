@@ -77,7 +77,7 @@
 \emph{[eClass.name /]}[comment 
 /][if (eSuperTypes->notEmpty() or getExtendsName(eClass) <> null)] inherits from [/if][comment 
 /][for (eSuperClass : EClass | eSuperTypes) separator(', ') ]
-\emph{[getFQN(eSuperClass).toValidLaTeX().hyphenate().replaceAll('::', '::\\\\allowbreak{}') /]}[comment 
+\emph{[ (if eSuperClass.ePackage = eClass.ePackage then getName(eSuperClass) else getFQN(eSuperClass) endif).toValidLaTeX().hyphenate().replaceAll('::', '::\\\\allowbreak{}') /]}[comment 
 /][/for]
 [if (getExtendsName(eClass) <> null)]
 [if (eSuperTypes->notEmpty())], [/if]
@@ -90,7 +90,7 @@
 \emph{<<[ getProfileName(eClass).toValidLaTeX().hyphenate() /]>>}[comment 
 /][if (eSuperTypes->notEmpty() or getExtendsProfileName(eClass) <> null)] inherits from [/if][comment 
 /][for (eSuperClass : EClass | eSuperTypes) separator(', ') ]
-\emph{[getProfileFQN(eSuperClass).toValidLaTeX().hyphenate().replaceAll('::', '::\\\\allowbreak{}') /]}[comment 
+\emph{[ (if eSuperClass.ePackage = eClass.ePackage then getProfileName(eSuperClass) else getProfileFQN(eSuperClass) endif).toValidLaTeX().hyphenate().replaceAll('::', '::\\\\allowbreak{}') /]}[comment 
 /][/for]
 [if (getExtendsProfileName(eClass) <> null)]
 [if (eSuperTypes->notEmpty())], [/if]
