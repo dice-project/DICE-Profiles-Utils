@@ -1,0 +1,310 @@
+[comment encoding = UTF-8 /]
+[module generateLaTeX(
+'http://www.eclipse.org/emf/2002/Ecore',
+'http://com.masdes.dam/profiles/DAM/1.0'
+)]
+
+[template public generateEPackage(ePackage : EPackage)]
+[comment @main/]
+[if (not(isExcluded(ePackage)))]
+[let ePackageName : String = getName(ePackage).tokenize('::')->last()]
+[file (ePackage.nsPrefix + '.tex', false, 'UTF-8')]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This is an automatically generated TeX file, do not modify it manually.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+[let eDataTypes : OrderedSet(EDataType) = notExcluded(ePackage.eClassifiers)->filter(EDataType) ]
+[if (eDataTypes->notEmpty())]
+\begin{small}
+% Total table width: 14.5cm
+\begin{longtable} {|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{6.5cm}|}
+	\caption{[getName(ePackage)/] datatypes}
+	\label{tab:[ePackageName/]}\\
+	\hline%
+	\textbf{Name} & \textbf{Kind} & \textbf{Values or Description} \\\hline
+	[for (eDataType : EDataType | eDataTypes)]
+	[if (eDataType.oclIsTypeOf(EEnum))]
+	[let eEnum : EEnum  = eDataType.oclAsType(EEnum)]
+		[getName(eEnum) /] & Enumeration & [for (eEnumLiteral : EEnumLiteral | eEnum.eLiterals) separator(', ') ][ eEnumLiteral.literal.trim().toValidLaTeX() /][/for]\\
+	[/let]
+	[else]
+		[getName(eDataType) /] & DataType & [ eDataType.instanceTypeName.toValidLaTeX() /]\\
+	[/if]
+	[let theComment : String = buildEClassifierComment(eDataType) ]
+	[if (theComment.size() > 0)]
+	\cline{2-3}
+	& \multicolumn{2}{p{10.5cm}|}{\textbf{Comments:} [ theComment /]}  \\
+	[/if]
+	[/let]\hline
+	[/for] 
+\end{longtable}
+\end{small}
+[/if]
+[/let]
+
+[let eClasses : OrderedSet(EClass) = notExcluded(ePackage.eClassifiers)->filter(EClass) ]
+[if (eClasses->notEmpty())]
+\begin{small}
+% Total table width: 14.5cm
+\begin{longtable} {|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{6.5cm}|}
+	\caption{[getName(ePackage)/] mapping}
+	\label{tab:[ePackageName/]}\\
+	\hline%
+	\textbf{DICE [ePackageName/] Metamodel Element} & \textbf{DICE Stereotype} & \textbf{DICE Tags} \\\hline
+	[for (eClass : EClass | eClasses) ]
+	[generateMetamodelElement(eClass) /] & [generateDiceElement(eClass) /] & [generateDiceTags(eClass) /] \\
+	[let theComment : String = buildEClassifierComment(eClass) ]
+	[if (theComment.size() > 0)]
+	\cline{2-3}
+	& \multicolumn{2}{p{10.5cm}|}{\textbf{Comments:} [ theComment /]}  \\
+	[/if]
+	[/let]\hline
+	[/for] 
+\end{longtable}
+\end{small}
+[/if]
+[/let]
+
+[/file]
+[/let]
+[/if]
+[/template]
+
+[template public generateMetamodelElement(eClass : EClass)]
+[let eSuperTypes : OrderedSet(EClass) = notExcluded(eClass.eAllSuperTypes) ]
+\emph{[eClass.name /]}[comment 
+/][if (eSuperTypes->notEmpty() or getExtendsName(eClass) <> null)] inherits from [/if][comment 
+/][for (eSuperClass : EClass | eSuperTypes) separator(', ') ]
+\emph{[getFQN(eSuperClass).toValidLaTeX().hyphenate().replaceAll('::', '::\\\\allowbreak{}') /]}[comment 
+/][/for]
+[if (getExtendsName(eClass) <> null)]
+[if (eSuperTypes->notEmpty())], [/if]
+\emph{[getExtendsName(eClass).toValidLaTeX().hyphenate().replaceAll('::', '::\\\\allowbreak{}') /]}
+[/if]
+[/let]
+[/template]
+
+[template public generateDiceElement(eClass : EClass)]
+\emph{<<[ getProfileName(eClass).toValidLaTeX().hyphenate() /]>>}[comment 
+/][if (eSuperTypes->notEmpty() or getExtendsProfileName(eClass) <> null)] inherits from [/if][comment 
+/][for (eSuperClass : EClass | eSuperTypes) separator(', ') ]
+\emph{[getProfileFQN(eSuperClass).toValidLaTeX().hyphenate().replaceAll('::', '::\\\\allowbreak{}') /]}[comment 
+/][/for]
+[if (getExtendsProfileName(eClass) <> null)]
+[if (eSuperTypes->notEmpty())], [/if]
+\emph{[getExtendsProfileName(eClass).toValidLaTeX().hyphenate().replaceAll('::', '::\\\\allowbreak{}') /]}
+[/if]
+[/template]
+
+[template public generateDiceTags(eClass : EClass)]
+[let eAllReferences : OrderedSet(EStructuralFeature) = notExcluded(eClass.eAllReferences)]
+[let eDirectReferences : OrderedSet(EReference) = notExcluded(eClass.eReferences) ]
+[let eInheritedReferences : OrderedSet(EReference) = eAllReferences->removeAll(eDirectReferences) ]
+[let eAllAttributes : OrderedSet(EAttribute) = notExcluded(eClass.eAllAttributes)]
+[let eDirectAttributes : OrderedSet(EAttribute) = notExcluded(eClass.eAttributes) ]
+[let eInheritedAttributes : OrderedSet(EAttribute) = eAllAttributes->removeAll(eDirectAttributes) ]
+[if (eAllReferences->notEmpty() or eAllAttributes->notEmpty())]
+\begin{minipage}['['/]t[']'/]{\linewidth}
+\raggedright
+\begin{enumerate}['['/]leftmargin=0.5cm,topsep=0ex,itemsep=0ex,partopsep=0ex,parsep=0ex[']'/]
+[if (eInheritedAttributes->notEmpty())]
+{
+\color{gray}
+\item Inherited tags (from properties):
+\begin{itemize}['['/]leftmargin=0cm,topsep=0ex,itemsep=0ex,partopsep=0ex,parsep=0ex[']'/]
+[for (eAttribute : EAttribute | eInheritedAttributes)]
+\item [eAttribute.name.toValidLaTeX() + ': ' + eAttribute.eType.toUmlTypeName() /]
+[/for]
+\end{itemize}
+}
+[/if]
+[if (eDirectAttributes->notEmpty())]
+\item New tags (from properties):
+\begin{itemize}['['/]leftmargin=0cm,topsep=0ex,itemsep=0ex,partopsep=0ex,parsep=0ex[']'/]
+[for (eAttribute : EAttribute | eDirectAttributes)]
+\item [eAttribute.name.toValidLaTeX() + ': ' + eAttribute.eType.toUmlTypeName() /]
+[/for]
+\end{itemize}
+[/if]
+[if (eInheritedReferences->notEmpty())]
+{
+\color{gray}
+\item Inherited tags (from association ends):
+\begin{itemize}['['/]leftmargin=0cm,topsep=0ex,itemsep=0ex,partopsep=0ex,parsep=0ex[']'/]
+[for (eReference : EReference | eInheritedReferences)]
+\item [eReference.name.toValidLaTeX() + ': ' + eReference.eType.toUmlTypeName() /]
+[/for]
+\end{itemize}
+}
+[/if]
+[if (eDirectReferences->notEmpty())]
+\item New tags (from association ends):
+\begin{itemize}['['/]leftmargin=0cm,topsep=0ex,itemsep=0ex,partopsep=0ex,parsep=0ex[']'/]
+[for (eReference : EReference | eDirectReferences)]
+\item [eReference.name.toValidLaTeX() + ': ' + eReference.eType.toUmlTypeName() /]
+[/for]
+\end{itemize}
+[/if]
+\end{enumerate}
+\end{minipage}
+\vspace{1pt}
+[/if]
+[/let]
+[/let]
+[/let]
+[/let]
+[/let]
+[/let]
+[/template]
+
+[query public hyphenate(string : String) : String = string.replaceAll('([ABCDEFGHIJKLMNOPQRSTUVWXYZ])', '\\\\-$1') /]
+
+[query public toCamelCase(string : String) : String = string.toLowerFirst() /]
+
+[query public toValidLaTeX(string : String) : String = string.replaceAll('_','\\\\_') /]
+
+[query public toUmlTypeName(eClassifier : EClassifier) : String =
+if eClassifier <> null then
+	if eClassifier.instanceTypeName = null then
+		eClassifier.name
+	else
+		eClassifier.instanceTypeName.tokenize('.')->last()
+	endif
+else
+	null
+endif 
+/]
+
+[query public getAnnotationEntry(eModelElement : EModelElement, key : String) : EStringToStringMapEntry =
+let eAnnotation : EAnnotation = eModelElement.getEAnnotation('http://es.unizar.disco/dice/profiles/generator') in
+if (eAnnotation <> null) then
+	let details : OrderedSet(EStringToStringMapEntry) = eAnnotation.details->select(e | e.key = key) in
+	if (details->notEmpty()) then
+		details->first()
+	else
+		null
+	endif
+else
+	null
+endif
+/]
+
+[query public getAnnotatedName(eNamedElement : ENamedElement) : String =
+let entry : EStringToStringMapEntry = getAnnotationEntry(eNamedElement, 'name') in
+if (entry <> null) then
+	entry.value
+else
+	null
+endif
+/]
+
+[query public getAnnotatedProfileName(eNamedElement : ENamedElement) : String =
+let entry : EStringToStringMapEntry = getAnnotationEntry(eNamedElement, 'profileName') in
+if (entry <> null) then
+	entry.value
+else
+	null
+endif
+/]
+
+[query public getExtendsName(eNamedElement : ENamedElement) : String =
+let entry : EStringToStringMapEntry = getAnnotationEntry(eNamedElement, 'extends') in
+if (entry <> null) then
+	entry.value
+else
+	null
+endif
+/]
+
+[query public getExtendsProfileName(eNamedElement : ENamedElement) : String =
+let entry : EStringToStringMapEntry = getAnnotationEntry(eNamedElement, 'extendsProfile') in
+if (entry <> null) then
+	entry.value
+else
+	null
+endif
+/]
+
+[query public getName(eNamedElement : ENamedElement) : String =
+let annotatedName : String = getAnnotatedName(eNamedElement) in
+if (annotatedName <> null) then
+	annotatedName
+else
+	eNamedElement.name
+endif.replaceAll('\\.', '::')
+/]
+
+[query public getProfileName(eNamedElement : ENamedElement) : String = 
+let annotatedName : String = getAnnotatedProfileName(eNamedElement) in
+if (annotatedName <> null) then
+	annotatedName
+else
+	('Dice' + eNamedElement.name)
+endif.replaceAll('\\.', '::')
+/]
+
+
+[query public getFQN(eClassifier : EClassifier) : String = getEPackageFQN(eClassifier.ePackage) + '::' + getName(eClassifier) /]
+
+[query public getProfileFQN(eClassifier : EClassifier) : String = getProfileEPackageFQN(eClassifier.ePackage) + '::' + getProfileName(eClassifier) /]
+
+[query public getEPackageFQN(ePackage : EPackage) : String =
+if (ePackage.eSuperPackage <> null) then
+	getEPackageFQN(ePackage.eSuperPackage) + '::' + getName(ePackage)
+else
+	getName(ePackage)
+endif 
+/]
+
+[query public getProfileEPackageFQN(ePackage : EPackage) : String =
+if (ePackage.eSuperPackage <> null) then
+	getProfileEPackageFQN(ePackage.eSuperPackage) + '::' + getProfileName(ePackage)
+else
+	getProfileName(ePackage)
+endif 
+/]
+
+
+[query public notExcluded(collection : Collection(EModelElement)) : Collection(EModelElement) = 
+collection->select(type | not(isExcluded(type))) 
+/]
+
+[query public isExcluded(eModelElement : EModelElement) : Boolean =
+let entry : EStringToStringMapEntry = getAnnotationEntry(eModelElement, 'exclude') in entry <> null
+/]
+
+[query public getComment(eModelElement : EModelElement) : String =
+let entry : EStringToStringMapEntry = getAnnotationEntry(eModelElement, 'comment') in 
+if (entry <> null) then
+	entry.value
+else
+	null
+endif
+/]
+
+[query public buildEClassifierComment(eClassifier : EClassifier) : String =
+if (eClassifier.oclIsTypeOf(EClass)) then 
+	buildEClassComment(eClassifier.oclAsType(EClass)) 
+else 
+	getComment(eClassifier)
+endif
+/]
+
+
+[query public buildEClassComment(eClass : EClass) : String =
+if (eClass.abstract or eClass.interface) then 
+	'This is an abstract class, and should not be mapped into a Profile element. ' 
+else 
+	null
+endif
++
+if (notExcluded(eClass.eAttributes)->isEmpty() and notExcluded(eClass.eReferences)->isEmpty()) then 
+	'This class does not provide any tags, and should not be mapped into a Profile element. ' 
+else 
+	null
+endif
++
+getComment(eClass)  
+/]
