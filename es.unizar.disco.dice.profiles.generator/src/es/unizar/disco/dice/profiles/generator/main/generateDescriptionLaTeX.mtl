@@ -1,0 +1,53 @@
+[comment encoding = UTF-8 /]
+[module generateDescriptionLaTeX(
+'http://www.eclipse.org/emf/2002/Ecore',
+'http://com.masdes.dam/profiles/DAM/1.0'
+)]
+
+[import es::unizar::disco::dice::profiles::generator::main::queries /]
+
+[template public generateEPackage(ePackage : EPackage)]
+[comment @main/]
+[if (not(isExcluded(ePackage)))]
+[let ePackageName : String = getName(ePackage).tokenize('::')->last()]
+[file ('Description/' + ePackage.nsPrefix + '.tex', false, 'UTF-8')]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This is an automatically generated TeX file, do not modify it manually.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+[let eClasses : OrderedSet(EClass) = notExcluded(ePackage.eClassifiers)->filter(EClass) ]
+[if (eClasses->notEmpty())]
+\begin{small}
+% Total table width: 14.5cm
+\begin{longtable} {|>{\raggedright\arraybackslash}p{4.5cm}|>{\raggedright\arraybackslash}p{10cm}|}
+	\caption{elements of the [getName(ePackage)/] package}
+	\label{tab:desc_[ePackageName/]}\\
+	\hline%
+	\textbf{Element} & \textbf{Description} \\\hline
+	[for (eClass : EClass | eClasses) ]
+	[generateMetamodelElement(eClass) /] & [generateDescription(eClass) /] \\\hline
+	[/for] 
+\end{longtable}
+\end{small}
+[/if]
+[/let]
+
+[/file]
+[/let]
+[/if]
+[/template]
+
+[template public generateMetamodelElement(eClass : EClass)]
+[getName(eClass).toValidLaTeX().hyphenate() /]
+[/template]
+
+[template public generateDescription(eClass : EClass)]
+[let description : String = getDescription(eClass)]
+[if (description <> null)]
+[getDescription(eClass).toValidLaTeX() /]
+[/if]
+[/let]
+[/template]
+

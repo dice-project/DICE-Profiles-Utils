@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project default="generateMappingLaTeX" name="es.unizar.disco.dice.profiles.generator.mapping">
+<project default="generateDescriptionLaTeX" name="es.unizar.disco.dice.profiles.generator.description">
     <property name="ECLIPSE_HOME" value="../../../.."/>
     <property name="ECLIPSE_WORKSPACE" value="../../../../workspace.git/DICE-Profiles-Utils"/>
 
@@ -55,8 +55,8 @@
     </path>
 
     <!-- The default task with the jars used by this project -->
-    <target name="generateMappingLaTeX">
-        <java classname="es.unizar.disco.dice.profiles.generator.main.GenerateMappingLaTeX" classpathref="es.unizar.disco.dice.profiles.generator.classpath">
+    <target name="generateDescriptionLaTeX">
+        <java classname="es.unizar.disco.dice.profiles.generator.main.GenerateDescriptionLaTeX" classpathref="es.unizar.disco.dice.profiles.generator.classpath">
             <arg value="${model}"/>
             <arg value="${target}"/>
         </java>
@@ -66,8 +66,8 @@
         In case of problem you can also try with all the jar available in your Eclipse
         Keep in mind that having two versions of the same jar can create problems
     -->
-    <target name="generateMappingLaTeX.alljars">
-        <java classname="es.unizar.disco.dice.profiles.generator.main.GenerateMappingLaTeX" classpathref="es.unizar.disco.dice.profiles.generator.classpath">
+    <target name="generateDescriptionLaTeX.alljars">
+        <java classname="es.unizar.disco.dice.profiles.generator.main.GenerateDescriptionLaTeX" classpathref="es.unizar.disco.dice.profiles.generator.classpath">
             <arg value="${model}"/>
             <arg value="${target}"/>
         </java>

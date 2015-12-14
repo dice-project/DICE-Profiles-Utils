@@ -1,1 +1,2 @@
-/es.unizar.disco.dice.profiles.generator/tasks/generateLaTeX.xml
+/es.unizar.disco.dice.profiles.generator/tasks/generateDescriptionLaTeX.xml
+/es.unizar.disco.dice.profiles.generator/tasks/generateMappingLaTeX.xml

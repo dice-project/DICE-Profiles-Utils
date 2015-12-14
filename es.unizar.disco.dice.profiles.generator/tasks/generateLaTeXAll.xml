@@ -5,31 +5,56 @@
 
 <project basedir="." default="generateLaTeXAll" name="es.unizar.disco.dice.profiles.generatorAll">
 	<import file="../../es.unizar.disco.dice.profiles.generator/tasks/generateMappingLaTeX.xml"/>
+	<import file="../../es.unizar.disco.dice.profiles.generator/tasks/generateDescriptionLaTeX.xml"/>
 	<property name="workspace.location" value="C:/Eclipse/eclipse-SDK-4.5-win32-x86_64-TeXlipse/eclipse/workspace.git/Dice-Models/"/>
 	<property name="target.folder" value="C:/Eclipse/eclipse-SDK-4.5-win32-x86_64-TeXlipse/eclipse/workspace/DICE - D2.1/Files/Generated"/>
 
 	<target name="generateLaTeXAll">
-	  <antcall target="generateLaTeX">
+	  <antcall target="generateMappingLaTeX">
 	    <param name="model" value="${workspace.location}/io.github.dice-project.dpim/model/dpim.ecore"/>
 	    <param name="target" value="${target.folder}"/>
 	  </antcall>
-	  <antcall target="generateLaTeX">
+	  <antcall target="generateMappingLaTeX">
 	    <param name="model" value="${workspace.location}/io.github.dice-project.dtsm.core/model/dtsm.core.ecore"/>
 	    <param name="target" value="${target.folder}"/>
 	  </antcall>
-	  <antcall target="generateLaTeX">
+	  <antcall target="generateMappingLaTeX">
 	    <param name="model" value="${workspace.location}/io.github.dice-project.dtsm.hadoop/model/dtsm.hadoop.ecore"/>
 	    <param name="target" value="${target.folder}"/>
 	  </antcall>
-	  <antcall target="generateLaTeX">
+	  <antcall target="generateMappingLaTeX">
 	    <param name="model" value="${workspace.location}/io.github.dice-project.dtsm.oryx/model/dtsm.oryx.ecore"/>
 	    <param name="target" value="${target.folder}"/>
 	  </antcall>
-	  <antcall target="generateLaTeX">
+	  <antcall target="generateMappingLaTeX">
 	    <param name="model" value="${workspace.location}/io.github.dice-project.dtsm.spark/model/dtsm.spark.ecore"/>
 	    <param name="target" value="${target.folder}"/>
 	  </antcall>
-	  <antcall target="generateLaTeX">
+	  <antcall target="generateMappingLaTeX">
+	    <param name="model" value="${workspace.location}/io.github.dice-project.dtsm.storm/model/dtsm.storm.ecore"/>
+	    <param name="target" value="${target.folder}"/>
+	  </antcall>
+	  <antcall target="generateDescriptionLaTeX">
+	    <param name="model" value="${workspace.location}/io.github.dice-project.dpim/model/dpim.ecore"/>
+	    <param name="target" value="${target.folder}"/>
+	  </antcall>
+	  <antcall target="generateDescriptionLaTeX">
+	    <param name="model" value="${workspace.location}/io.github.dice-project.dtsm.core/model/dtsm.core.ecore"/>
+	    <param name="target" value="${target.folder}"/>
+	  </antcall>
+	  <antcall target="generateDescriptionLaTeX">
+	    <param name="model" value="${workspace.location}/io.github.dice-project.dtsm.hadoop/model/dtsm.hadoop.ecore"/>
+	    <param name="target" value="${target.folder}"/>
+	  </antcall>
+	  <antcall target="generateDescriptionLaTeX">
+	    <param name="model" value="${workspace.location}/io.github.dice-project.dtsm.oryx/model/dtsm.oryx.ecore"/>
+	    <param name="target" value="${target.folder}"/>
+	  </antcall>
+	  <antcall target="generateDescriptionLaTeX">
+	    <param name="model" value="${workspace.location}/io.github.dice-project.dtsm.spark/model/dtsm.spark.ecore"/>
+	    <param name="target" value="${target.folder}"/>
+	  </antcall>
+	  <antcall target="generateDescriptionLaTeX">
 	    <param name="model" value="${workspace.location}/io.github.dice-project.dtsm.storm/model/dtsm.storm.ecore"/>
 	    <param name="target" value="${target.folder}"/>
 	  </antcall>
