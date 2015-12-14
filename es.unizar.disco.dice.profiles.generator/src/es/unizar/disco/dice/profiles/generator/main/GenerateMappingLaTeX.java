@@ -25,17 +25,17 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
 /**
- * Entry point of the 'GenerateLaTeX' generation module.
+ * Entry point of the 'GenerateMappingLaTeX' generation module.
  *
  * @generated
  */
-public class GenerateLaTeX extends AbstractAcceleoGenerator {
+public class GenerateMappingLaTeX extends AbstractAcceleoGenerator {
     /**
      * The name of the module.
      *
      * @generated
      */
-    public static final String MODULE_FILE_NAME = "/es/unizar/disco/dice/profiles/generator/main/generateLaTeX";
+    public static final String MODULE_FILE_NAME = "/es/unizar/disco/dice/profiles/generator/main/generateMappingLaTeX";
     
     /**
      * The name of the templates that are to be generated.
@@ -65,7 +65,7 @@ public class GenerateLaTeX extends AbstractAcceleoGenerator {
      *
      * @generated
      */
-    public GenerateLaTeX() {
+    public GenerateMappingLaTeX() {
         // Empty implementation
     }
 
@@ -85,7 +85,7 @@ public class GenerateLaTeX extends AbstractAcceleoGenerator {
      *             the model cannot be loaded.
      * @generated
      */
-    public GenerateLaTeX(URI modelURI, File targetFolder,
+    public GenerateMappingLaTeX(URI modelURI, File targetFolder,
             List<? extends Object> arguments) throws IOException {
         initialize(modelURI, targetFolder, arguments);
     }
@@ -106,7 +106,7 @@ public class GenerateLaTeX extends AbstractAcceleoGenerator {
      *             This can be thrown in two scenarios : the module cannot be found, or it cannot be loaded.
      * @generated
      */
-    public GenerateLaTeX(EObject model, File targetFolder,
+    public GenerateMappingLaTeX(EObject model, File targetFolder,
             List<? extends Object> arguments) throws IOException {
         initialize(model, targetFolder, arguments);
     }
@@ -141,7 +141,7 @@ public class GenerateLaTeX extends AbstractAcceleoGenerator {
                  * add in "arguments" this "String" attribute.
                  */
                 
-                GenerateLaTeX generator = new GenerateLaTeX(modelURI, folder, arguments);
+                GenerateMappingLaTeX generator = new GenerateMappingLaTeX(modelURI, folder, arguments);
                 
                 /*
                  * Add the properties from the launch arguments.

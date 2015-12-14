@@ -1,5 +1,5 @@
 [comment encoding = UTF-8 /]
-[module generateLaTeX(
+[module generateMappingLaTeX(
 'http://www.eclipse.org/emf/2002/Ecore',
 'http://com.masdes.dam/profiles/DAM/1.0'
 )]
