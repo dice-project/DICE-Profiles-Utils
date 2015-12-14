@@ -22,7 +22,7 @@
 \begin{small}
 % Total table width: 14.5cm
 \begin{longtable} {|>{\raggedright\arraybackslash}p{4.5cm}|>{\raggedright\arraybackslash}p{10cm}|}
-	\caption{elements of the [getName(ePackage)/] package}
+	\caption{Elements of the [getName(ePackage)/] package}
 	\label{tab:desc_[ePackageName/]}\\
 	\hline%
 	\textbf{Element} & \textbf{Description} \\\hline

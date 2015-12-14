@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project default="generateDescriptionLaTeX" name="es.unizar.disco.dice.profiles.generator.description">
+<project default="generateDescriptionLaTeX" name="es.unizar.disco.dice.profiles.generator">
     <property name="ECLIPSE_HOME" value="../../../.."/>
-    <property name="ECLIPSE_WORKSPACE" value="../../../../workspace.git/DICE-Profiles-Utils"/>
+    <property name="ECLIPSE_WORKSPACE" value="../../../../workspace"/>
 
     <!-- The classpath with only the dependencies used by the project -->
     <path id="es.unizar.disco.dice.profiles.generator.libraryclasspath">
